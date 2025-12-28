@@ -161,6 +161,61 @@ void main() {
       dispose();
     });
 
+    test('can use useDeepEquality for collections', () {
+      final list = ObservableList<int>.of([1, 2, 4]);
+
+      var observationCount = 0;
+
+      final evens = Computed(
+          () => list.where((element) => element.isEven).toList(),
+          useDeepEquality: true);
+
+      final dispose = evens.observe((change) {
+        observationCount++;
+      });
+
+      expect(observationCount, equals(1));
+
+      // evens didn't change, so should not invoke observe
+      list.add(5);
+      expect(observationCount, equals(1));
+
+      // evens changed, so should invoke observe
+      list.add(6);
+      expect(observationCount, equals(2));
+
+      dispose();
+    });
+
+    test('useDeepEquality works with maps', () {
+      final source = ObservableMap<String, int>.of({'a': 1, 'b': 2});
+
+      var observationCount = 0;
+
+      final filtered = Computed(
+          () => Map<String, int>.fromEntries(
+              source.entries.where((e) => e.value > 1)),
+          useDeepEquality: true);
+
+      final dispose = filtered.observe((change) {
+        observationCount++;
+      });
+
+      expect(observationCount, equals(1));
+      expect(filtered.value, equals({'b': 2}));
+
+      // Changing a value that doesn't affect the filtered result
+      source['a'] = 0;
+      expect(observationCount, equals(1));
+
+      // Changing a value that affects the filtered result
+      source['c'] = 3;
+      expect(observationCount, equals(2));
+      expect(filtered.value, equals({'b': 2, 'c': 3}));
+
+      dispose();
+    });
+
     test('uses provided context', () {
       final context = MockContext();
       when(() => context.nameFor(any())).thenReturn('Test-Computed');

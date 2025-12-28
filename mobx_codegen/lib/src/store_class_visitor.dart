@@ -143,6 +143,11 @@ class StoreClassVisitor extends SimpleElementVisitor2 {
       ?.getField('keepAlive')
       ?.toBoolValue();
 
+  bool? _isComputedUseDeepEquality(Element2 element) => _computedChecker
+      .firstAnnotationOfExact(element)
+      ?.getField('useDeepEquality')
+      ?.toBoolValue();
+
   @override
   void visitGetterElement(GetterElement element) =>
       visitPropertyAccessorElement(element);
@@ -177,7 +182,8 @@ class StoreClassVisitor extends SimpleElementVisitor2 {
         name: element.name3!,
         type: typeNameFinder.findGetterTypeName(element),
         isPrivate: element.isPrivate,
-        isKeepAlive: _isComputedKeepAlive(element));
+        isKeepAlive: _isComputedKeepAlive(element),
+        useDeepEquality: _isComputedUseDeepEquality(element));
 
     _storeTemplate.computeds.add(template);
     return;

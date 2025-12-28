@@ -31,6 +31,12 @@ abstract class _TestStore with Store {
   String get fieldsKeepAlive => '$field1 $field2';
 
   @observable
+  ObservableList<int> numbers = ObservableList<int>.of([1, 2, 3, 4]);
+
+  @ComputedMethod(useDeepEquality: true)
+  List<int> get evenNumbers => numbers.where((n) => n.isEven).toList();
+
+  @observable
   String stuff = 'stuff';
 
   @alwaysNotify
@@ -180,6 +186,28 @@ void main() {
     store.setFields('field1++', 'field2++');
 
     expect(fields, equals(['field1 field2', 'field1++ field2++']));
+  });
+
+  test('useDeepEquality computed does not notify when collection content is same', () {
+    final store = TestStore('field1', field2: 'field2');
+
+    var notificationCount = 0;
+    autorun((_) {
+      store.evenNumbers;
+      notificationCount++;
+    });
+
+    expect(notificationCount, equals(1));
+    expect(store.evenNumbers, equals([2, 4]));
+
+    // Adding an odd number should not trigger notification (evens are the same)
+    store.numbers.add(5);
+    expect(notificationCount, equals(1));
+
+    // Adding an even number should trigger notification
+    store.numbers.add(6);
+    expect(notificationCount, equals(2));
+    expect(store.evenNumbers, equals([2, 4, 6]));
   });
 
   test('async action works', () async {
