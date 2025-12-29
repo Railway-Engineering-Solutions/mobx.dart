@@ -10,6 +10,7 @@ class TestStore = _TestStore with _$TestStore;
 abstract class _TestStore with Store {
   @observable
   late String username;
-  @ComputedMethod(keepAlive: true)
+
+  @MakeComputed(keepAlive: true)
   String get usernameComputed => username;
 }

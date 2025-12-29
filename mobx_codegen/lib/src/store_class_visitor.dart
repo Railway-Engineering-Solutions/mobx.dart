@@ -9,7 +9,7 @@ import 'package:meta/meta.dart';
 import 'package:mobx/mobx.dart';
 // ignore: implementation_imports
 import 'package:mobx/src/api/annotations.dart'
-    show ComputedMethod, MakeAction, MakeObservable, StoreConfig;
+    show MakeComputed, MakeAction, MakeObservable, StoreConfig;
 import 'package:mobx_codegen/src/errors.dart';
 import 'package:mobx_codegen/src/template/action.dart';
 import 'package:mobx_codegen/src/template/async_action.dart';
@@ -45,7 +45,7 @@ class StoreClassVisitor extends SimpleElementVisitor2 {
       const TypeChecker.typeNamed(MakeObservable, inPackage: 'mobx');
 
   final _computedChecker =
-      const TypeChecker.typeNamed(ComputedMethod, inPackage: 'mobx');
+      const TypeChecker.typeNamed(MakeComputed, inPackage: 'mobx');
 
   final _actionChecker =
       const TypeChecker.typeNamed(MakeAction, inPackage: 'mobx');

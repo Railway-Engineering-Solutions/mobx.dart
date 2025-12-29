@@ -27,13 +27,13 @@ abstract class _TestStore with Store {
   @computed
   String get fields => '$field1 $field2';
 
-  @ComputedMethod(keepAlive: true)
+  @MakeComputed(keepAlive: true)
   String get fieldsKeepAlive => '$field1 $field2';
 
   @observable
   ObservableList<int> numbers = ObservableList<int>.of([1, 2, 3, 4]);
 
-  @ComputedMethod(useDeepEquality: true)
+  @MakeComputed(useDeepEquality: true)
   List<int> get evenNumbers => numbers.where((n) => n.isEven).toList();
 
   @observable
@@ -188,7 +188,9 @@ void main() {
     expect(fields, equals(['field1 field2', 'field1++ field2++']));
   });
 
-  test('useDeepEquality computed does not notify when collection content is same', () {
+  test(
+      'useDeepEquality computed does not notify when collection content is same',
+      () {
     final store = TestStore('field1', field2: 'field2');
 
     var notificationCount = 0;

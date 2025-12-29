@@ -67,8 +67,8 @@ const MakeObservable alwaysNotify =
 /// Internal class only used for code-generation with `mobx_codegen`.
 ///
 /// During code-generation, this type is detected to identify a `Computed`
-class ComputedMethod {
-  const ComputedMethod({this.keepAlive, this.useDeepEquality});
+class MakeComputed {
+  const MakeComputed({this.keepAlive, this.useDeepEquality});
 
   final bool? keepAlive;
 
@@ -80,7 +80,7 @@ class ComputedMethod {
 
 /// Declares a method as a computed value. See the `Computed` class for full
 /// documentation.
-const ComputedMethod computed = ComputedMethod();
+const MakeComputed computed = MakeComputed();
 
 /// Internal class only used for code-generation with `mobx_codegen`.
 ///
