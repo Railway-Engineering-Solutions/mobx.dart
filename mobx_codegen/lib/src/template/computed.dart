@@ -7,7 +7,8 @@ class ComputedTemplate {
       required this.type,
       required this.name,
       this.isPrivate = false,
-      this.isKeepAlive});
+      this.isKeepAlive,
+      this.useDeepEquality});
 
   final StoreTemplate storeTemplate;
   final String computedName;
@@ -15,6 +16,7 @@ class ComputedTemplate {
   final String name;
   final bool isPrivate;
   final bool? isKeepAlive;
+  final bool? useDeepEquality;
 
   @override
   // ignore: prefer_single_quotes
@@ -22,5 +24,5 @@ class ComputedTemplate {
   Computed<$type>? $computedName;
 
   @override
-  $type get $name => ($computedName ??= Computed<$type>(() => super.$name, name: '${storeTemplate.parentTypeName}.$name'${isKeepAlive != null ? ', keepAlive: $isKeepAlive' : ''})).value;""";
+  $type get $name => ($computedName ??= Computed<$type>(() => super.$name, name: '${storeTemplate.parentTypeName}.$name'${isKeepAlive != null ? ', keepAlive: $isKeepAlive' : ''}${useDeepEquality != null ? ', useDeepEquality: $useDeepEquality' : ''})).value;""";
 }

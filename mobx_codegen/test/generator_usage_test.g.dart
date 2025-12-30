@@ -23,6 +23,13 @@ mixin _$TestStore on _TestStore, Store {
           name: '_TestStore.fieldsKeepAlive',
           keepAlive: true))
       .value;
+  Computed<List<int>>? _$evenNumbersComputed;
+
+  @override
+  List<int> get evenNumbers =>
+      (_$evenNumbersComputed ??= Computed<List<int>>(() => super.evenNumbers,
+              name: '_TestStore.evenNumbers', useDeepEquality: true))
+          .value;
   Computed<String>? _$batchedItemsComputed;
 
   @override
@@ -58,6 +65,21 @@ mixin _$TestStore on _TestStore, Store {
   set field2(String? value) {
     _$field2Atom.reportWrite(value, super.field2, () {
       super.field2 = value;
+    });
+  }
+
+  late final _$numbersAtom = Atom(name: '_TestStore.numbers', context: context);
+
+  @override
+  ObservableList<int> get numbers {
+    _$numbersAtom.reportRead();
+    return super.numbers;
+  }
+
+  @override
+  set numbers(ObservableList<int> value) {
+    _$numbersAtom.reportWrite(value, super.numbers, () {
+      super.numbers = value;
     });
   }
 
@@ -282,6 +304,7 @@ mixin _$TestStore on _TestStore, Store {
     return '''
 field1: ${field1},
 field2: ${field2},
+numbers: ${numbers},
 stuff: ${stuff},
 always: ${always},
 custom: ${custom},
@@ -293,6 +316,7 @@ errorField: ${errorField},
 lateField: ${lateField},
 fields: ${fields},
 fieldsKeepAlive: ${fieldsKeepAlive},
+evenNumbers: ${evenNumbers},
 batchedItems: ${batchedItems}
     ''';
   }

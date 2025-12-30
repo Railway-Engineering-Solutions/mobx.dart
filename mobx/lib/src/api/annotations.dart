@@ -67,15 +67,20 @@ const MakeObservable alwaysNotify =
 /// Internal class only used for code-generation with `mobx_codegen`.
 ///
 /// During code-generation, this type is detected to identify a `Computed`
-class ComputedMethod {
-  const ComputedMethod({this.keepAlive});
+class MakeComputed {
+  const MakeComputed({this.keepAlive, this.useDeepEquality});
 
   final bool? keepAlive;
+
+  /// When true, uses deep collection equality for comparing computed values.
+  /// This is useful when the computed returns a List, Set, or Map and you want
+  /// to avoid notifying observers when the collection contents are the same.
+  final bool? useDeepEquality;
 }
 
 /// Declares a method as a computed value. See the `Computed` class for full
 /// documentation.
-const ComputedMethod computed = ComputedMethod();
+const MakeComputed computed = MakeComputed();
 
 /// Internal class only used for code-generation with `mobx_codegen`.
 ///

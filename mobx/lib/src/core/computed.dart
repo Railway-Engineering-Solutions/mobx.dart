@@ -19,6 +19,11 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
   /// This avoids suspending computed values when they are not being observed by anything.
   /// Can potentially create memory leaks.
   ///
+  /// [useDeepEquality]
+  /// When true, uses deep collection equality for comparing computed values.
+  /// This is useful when the computed returns a List, Set, or Map and you want
+  /// to avoid notifying observers when the collection contents are the same.
+  ///
   /// ```
   /// var x = Observable(10);
   /// var y = Observable(10);
@@ -39,18 +44,25 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
           {String? name,
           ReactiveContext? context,
           EqualityComparer<T>? equals,
-          bool? keepAlive}) =>
+          bool? keepAlive,
+          bool? useDeepEquality}) =>
       Computed._(context ?? mainContext, fn,
-          name: name, equals: equals, keepAlive: keepAlive);
+          name: name,
+          equals: equals,
+          keepAlive: keepAlive,
+          useDeepEquality: useDeepEquality);
 
   Computed._(super.context, this._fn,
-      {String? name, this.equals, bool? keepAlive})
+      {String? name, this.equals, bool? keepAlive, bool? useDeepEquality})
       : _keepAlive = keepAlive ?? false,
+        _useDeepEquality = useDeepEquality ?? false,
         super._(name: name ?? context.nameFor('Computed'));
 
   final EqualityComparer<T>? equals;
 
   final bool _keepAlive;
+
+  final bool _useDeepEquality;
 
   @override
   MobXCaughtException? _errorValue;
@@ -166,7 +178,11 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
     return changed;
   }
 
-  bool _isEqual(T? x, T? y) => equals == null ? x == y : equals!(x, y);
+  bool _isEqual(T? x, T? y) {
+    if (equals != null) return equals!(x, y);
+    if (_useDeepEquality) return equatable(x, y, useDeepEquality: true);
+    return x == y;
+  }
 
   void Function() observe(void Function(ChangeNotification<T>) handler,
       {@Deprecated(
