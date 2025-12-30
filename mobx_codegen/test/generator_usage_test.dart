@@ -27,13 +27,13 @@ abstract class _TestStore with Store {
   @computed
   String get fields => '$field1 $field2';
 
-  @MakeComputed(keepAlive: true)
+  @ComputedMethod(keepAlive: true)
   String get fieldsKeepAlive => '$field1 $field2';
 
   @observable
   ObservableList<int> numbers = ObservableList<int>.of([1, 2, 3, 4]);
 
-  @MakeComputed(useDeepEquality: true)
+  @ComputedMethod(useDeepEquality: true)
   List<int> get evenNumbers => numbers.where((n) => n.isEven).toList();
 
   @observable
