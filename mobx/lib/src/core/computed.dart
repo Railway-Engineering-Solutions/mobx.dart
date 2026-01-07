@@ -91,7 +91,8 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
   T get value {
     if (_isComputing) {
       throw MobXCyclicReactionException(
-          'Cycle detected in computation $name: $_fn');
+        'Cycle detected in computation $name: $_fn',
+      );
     }
 
     if (!_context.isWithinBatch && _observers.isEmpty && !_keepAlive) {
@@ -184,19 +185,23 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
     return x == y;
   }
 
-  void Function() observe(void Function(ChangeNotification<T>) handler,
-      {@Deprecated(
-          'fireImmediately has no effect anymore. It is on by default.')
-      bool? fireImmediately}) {
+  void Function() observe(
+    void Function(ChangeNotification<T>) handler, {
+    @Deprecated('fireImmediately has no effect anymore. It is on by default.')
+    bool? fireImmediately,
+  }) {
     T? prevValue;
 
     void notifyChange() {
       _context.untracked(() {
-        handler(ChangeNotification(
+        handler(
+          ChangeNotification(
             type: OperationType.update,
             object: this,
             oldValue: prevValue,
-            newValue: value));
+            newValue: value,
+          ),
+        );
       });
     }
 
