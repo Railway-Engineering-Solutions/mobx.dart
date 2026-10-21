@@ -1,3 +1,19 @@
+## 2.8.1
+
+- Allow analyzer 14 again and restore wider dependency ranges (#1086)
+  - `analyzer: ">=10.0.0 <15.0.0"` (was `^13.3.0`)
+  - `build: ^4.0.4` (was `^4.0.11`)
+  - `source_gen: ^4.1.2` (was `^4.2.4`)
+  - `sdk: ">=3.9.0 <4.0.0"` (was `>=3.11.0`)
+- Fix the first `null` assignment to a nullable `late` observable being ignored (#1069)
+
+## 2.8.0
+
+ - **FIX**: upgrade SDK to 3.7.0 and use multiple underscore wildcards for unused parametersFeature/annotations update (#1062).
+ - **FIX**: fixing lints in tests.
+ - **FEAT**: improve reactivity performance and correctness with a new documentation gallery.
+ - **FEAT**: add support for analyzer 9.0.0 (#1065).
+
 ## 2.7.8
 
 - Update analyzer version to `>=9.0.0 < 14.0.0`
@@ -10,7 +26,6 @@
 
 - Add support for analyzer 9.0.0 by migrating to the Element API (from deprecated Element2 API)
 - Require `analyzer: ^9.0.0` (drop support for analyzer <9.0.0)
-- **FIX**: useDeepEquality is not being correctly passed to the generated code.
 
 ## 2.7.5
 

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx_examples/counter/counter.dart';
 
 class CounterExample extends StatefulWidget {
-  const CounterExample({Key? key}) : super(key: key);
+  const CounterExample({super.key});
 
   @override
   CounterExampleState createState() => CounterExampleState();

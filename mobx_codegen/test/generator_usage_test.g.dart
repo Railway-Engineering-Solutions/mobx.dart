@@ -12,31 +12,25 @@ mixin _$TestStore on _TestStore, Store {
   Computed<String>? _$fieldsComputed;
 
   @override
-  String get fields =>
-      (_$fieldsComputed ??= Computed<String>(
-            () => super.fields,
-            name: '_TestStore.fields',
-          ))
-          .value;
+  String get fields => (_$fieldsComputed ??= Computed<String>(
+    () => super.fields,
+    name: '_TestStore.fields',
+  )).value;
   Computed<String>? _$fieldsKeepAliveComputed;
 
   @override
-  String get fieldsKeepAlive =>
-      (_$fieldsKeepAliveComputed ??= Computed<String>(
-            () => super.fieldsKeepAlive,
-            name: '_TestStore.fieldsKeepAlive',
-            keepAlive: true,
-          ))
-          .value;
+  String get fieldsKeepAlive => (_$fieldsKeepAliveComputed ??= Computed<String>(
+    () => super.fieldsKeepAlive,
+    name: '_TestStore.fieldsKeepAlive',
+    keepAlive: true,
+  )).value;
   Computed<String>? _$batchedItemsComputed;
 
   @override
-  String get batchedItems =>
-      (_$batchedItemsComputed ??= Computed<String>(
-            () => super.batchedItems,
-            name: '_TestStore.batchedItems',
-          ))
-          .value;
+  String get batchedItems => (_$batchedItemsComputed ??= Computed<String>(
+    () => super.batchedItems,
+    name: '_TestStore.batchedItems',
+  )).value;
 
   late final _$field1Atom = Atom(name: '_TestStore.field1', context: context);
 
@@ -50,7 +44,7 @@ mixin _$TestStore on _TestStore, Store {
   set field1(String value) {
     _$field1Atom.reportWrite(value, super.field1, () {
       super.field1 = value;
-    }, useDeepEquality: true);
+    });
   }
 
   late final _$field2Atom = Atom(name: '_TestStore.field2', context: context);
@@ -65,7 +59,7 @@ mixin _$TestStore on _TestStore, Store {
   set field2(String? value) {
     _$field2Atom.reportWrite(value, super.field2, () {
       super.field2 = value;
-    }, useDeepEquality: true);
+    });
   }
 
   late final _$stuffAtom = Atom(name: '_TestStore.stuff', context: context);
@@ -80,7 +74,7 @@ mixin _$TestStore on _TestStore, Store {
   set stuff(String value) {
     _$stuffAtom.reportWrite(value, super.stuff, () {
       super.stuff = value;
-    }, useDeepEquality: true);
+    });
   }
 
   late final _$alwaysAtom = Atom(name: '_TestStore.always', context: context);
@@ -93,15 +87,9 @@ mixin _$TestStore on _TestStore, Store {
 
   @override
   set always(String value) {
-    _$alwaysAtom.reportWrite(
-      value,
-      super.always,
-      () {
-        super.always = value;
-      },
-      equals: observableAlwaysNotEqual,
-      useDeepEquality: true,
-    );
+    _$alwaysAtom.reportWrite(value, super.always, () {
+      super.always = value;
+    }, equals: observableAlwaysNotEqual);
   }
 
   late final _$customAtom = Atom(name: '_TestStore.custom', context: context);
@@ -114,15 +102,9 @@ mixin _$TestStore on _TestStore, Store {
 
   @override
   set custom(String value) {
-    _$customAtom.reportWrite(
-      value,
-      super.custom,
-      () {
-        super.custom = value;
-      },
-      equals: customEquals,
-      useDeepEquality: true,
-    );
+    _$customAtom.reportWrite(value, super.custom, () {
+      super.custom = value;
+    }, equals: customEquals);
   }
 
   late final _$batchItem1Atom = Atom(
@@ -140,7 +122,7 @@ mixin _$TestStore on _TestStore, Store {
   set batchItem1(String value) {
     _$batchItem1Atom.reportWrite(value, super.batchItem1, () {
       super.batchItem1 = value;
-    }, useDeepEquality: true);
+    });
   }
 
   late final _$batchItem2Atom = Atom(
@@ -158,7 +140,7 @@ mixin _$TestStore on _TestStore, Store {
   set batchItem2(String value) {
     _$batchItem2Atom.reportWrite(value, super.batchItem2, () {
       super.batchItem2 = value;
-    }, useDeepEquality: true);
+    });
   }
 
   late final _$batchItem3Atom = Atom(
@@ -176,7 +158,7 @@ mixin _$TestStore on _TestStore, Store {
   set batchItem3(String value) {
     _$batchItem3Atom.reportWrite(value, super.batchItem3, () {
       super.batchItem3 = value;
-    }, useDeepEquality: true);
+    });
   }
 
   late final _$batchItem4Atom = Atom(
@@ -194,7 +176,7 @@ mixin _$TestStore on _TestStore, Store {
   set batchItem4(String value) {
     _$batchItem4Atom.reportWrite(value, super.batchItem4, () {
       super.batchItem4 = value;
-    }, useDeepEquality: true);
+    });
   }
 
   late final _$errorFieldAtom = Atom(
@@ -212,7 +194,7 @@ mixin _$TestStore on _TestStore, Store {
   set errorField(String value) {
     _$errorFieldAtom.reportWrite(value, super.errorField, () {
       super.errorField = value;
-    }, useDeepEquality: true);
+    });
   }
 
   late final _$lateFieldAtom = Atom(
@@ -237,7 +219,63 @@ mixin _$TestStore on _TestStore, Store {
         super.lateField = value;
         _lateFieldIsInitialized = true;
       },
-      useDeepEquality: true,
+      equals: _lateFieldIsInitialized ? null : observableAlwaysNotEqual,
+    );
+  }
+
+  late final _$lateNullableFieldAtom = Atom(
+    name: '_TestStore.lateNullableField',
+    context: context,
+  );
+
+  @override
+  String? get lateNullableField {
+    _$lateNullableFieldAtom.reportRead();
+    return super.lateNullableField;
+  }
+
+  bool _lateNullableFieldIsInitialized = false;
+
+  @override
+  set lateNullableField(String? value) {
+    _$lateNullableFieldAtom.reportWrite(
+      value,
+      _lateNullableFieldIsInitialized ? super.lateNullableField : null,
+      () {
+        super.lateNullableField = value;
+        _lateNullableFieldIsInitialized = true;
+      },
+      equals: _lateNullableFieldIsInitialized ? null : observableAlwaysNotEqual,
+    );
+  }
+
+  late final _$lateNullableUninitializedFieldAtom = Atom(
+    name: '_TestStore.lateNullableUninitializedField',
+    context: context,
+  );
+
+  @override
+  String? get lateNullableUninitializedField {
+    _$lateNullableUninitializedFieldAtom.reportRead();
+    return super.lateNullableUninitializedField;
+  }
+
+  bool _lateNullableUninitializedFieldIsInitialized = false;
+
+  @override
+  set lateNullableUninitializedField(String? value) {
+    _$lateNullableUninitializedFieldAtom.reportWrite(
+      value,
+      _lateNullableUninitializedFieldIsInitialized
+          ? super.lateNullableUninitializedField
+          : null,
+      () {
+        super.lateNullableUninitializedField = value;
+        _lateNullableUninitializedFieldIsInitialized = true;
+      },
+      equals: _lateNullableUninitializedFieldIsInitialized
+          ? null
+          : observableAlwaysNotEqual,
     );
   }
 
@@ -338,6 +376,8 @@ batchItem3: ${batchItem3},
 batchItem4: ${batchItem4},
 errorField: ${errorField},
 lateField: ${lateField},
+lateNullableField: ${lateNullableField},
+lateNullableUninitializedField: ${lateNullableUninitializedField},
 fields: ${fields},
 fieldsKeepAlive: ${fieldsKeepAlive},
 batchedItems: ${batchedItems}

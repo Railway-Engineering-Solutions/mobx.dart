@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx_examples/random_stream/random_store.dart';
 
 class RandomNumberExample extends StatefulWidget {
-  const RandomNumberExample({Key? key}) : super(key: key);
+  const RandomNumberExample({super.key});
 
   @override
   State<RandomNumberExample> createState() => _RandomNumberExampleState();

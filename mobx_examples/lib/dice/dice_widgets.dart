@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 import 'dice_counter.dart';
 
 class DiceExample extends StatelessWidget {
-  const DiceExample({Key? key}) : super(key: key);
+  const DiceExample({super.key});
 
   @override
   Widget build(BuildContext context) => Provider<DiceCounter>(
@@ -31,7 +31,7 @@ class DiceExample extends StatelessWidget {
 }
 
 class DiceView extends StatelessWidget {
-  const DiceView({Key? key}) : super(key: key);
+  const DiceView({super.key});
 
   @override
   Widget build(BuildContext context) {

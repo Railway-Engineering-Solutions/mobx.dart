@@ -56,9 +56,9 @@ MobX是一种状态管理库，它让应用程序的响应式数据与 UI 关联
 
 ### 深入
 
-更深入地学习 Mob，请看 [MobX 快速入门指南](https://www.packtpub.com/web-development/mobx-quick-start-guide). 虽然这本书使用的是 JavaScript 版本的 MobX，但是核心的概念是完全适用于 Dart 和 Flutter 版本的。
+更深入地学习 Mob，请看 [MobX 快速入门指南](https://www.packtpub.com/en-us/product/mobx-quick-start-guide-9781789344837). 虽然这本书使用的是 JavaScript 版本的 MobX，但是核心的概念是完全适用于 Dart 和 Flutter 版本的。
 
-[![](https://github.com/mobxjs/mobx.dart/raw/master/docs/src/images/book.png)](https://www.packtpub.com/web-development/mobx-quick-start-guide)
+[![MobX 快速入门指南封面](https://github.com/mobxjs/mobx.dart/raw/master/docs/src/images/book.png)](https://www.packtpub.com/en-us/product/mobx-quick-start-guide-9781789344837)
 
 ## 核心概念
 
@@ -433,3 +433,4 @@ class _CounterExampleState extends State<CounterExample> {
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 这个项目遵循 [all-contributors](https://github.com/all-contributors/all-contributors) 规范。欢迎大家以各种形式进行贡献！
+

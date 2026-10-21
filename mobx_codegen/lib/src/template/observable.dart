@@ -65,7 +65,7 @@ class ObservableTemplate {
     $atomName.reportWrite(value, _${name}IsInitialized ? super.$name : null, () {
       super.$name = value;
       _${name}IsInitialized = true;
-    }${equals != null ? ', equals: ${equals!.name}' : ''}${useDeepEquality != null ? ', useDeepEquality: $useDeepEquality' : ''});
+    }, equals: _${name}IsInitialized ? ${equals?.name ?? 'null'} : observableAlwaysNotEqual${useDeepEquality != null ? ', useDeepEquality: $useDeepEquality' : ''});
   }''';
     }
 

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx_examples/form/form_store.dart';
 
 class FormExample extends StatefulWidget {
-  const FormExample({Key? key}) : super(key: key);
+  const FormExample({super.key});
 
   @override
   FormExampleState createState() => FormExampleState();
