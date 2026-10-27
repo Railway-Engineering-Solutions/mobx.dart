@@ -1,6 +1,15 @@
-## 2.8.1
+## 2.8.2
 
 - **FIX**: pass `useDeepEquality` through generated regular and late observable setters.
+
+## 2.8.1
+
+- Allow analyzer 14 again and restore wider dependency ranges (#1086)
+  - `analyzer: ">=10.0.0 <15.0.0"` (was `^13.3.0`)
+  - `build: ^4.0.4` (was `^4.0.11`)
+  - `source_gen: ^4.1.2` (was `^4.2.4`)
+  - `sdk: ">=3.9.0 <4.0.0"` (was `>=3.11.0`)
+- Fix the first `null` assignment to a nullable `late` observable being ignored (#1069)
 
 ## 2.8.0
 

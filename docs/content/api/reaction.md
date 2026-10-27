@@ -41,7 +41,7 @@ inside `fn`.
 - **`delay`**: Number of milliseconds to throttle the effect function. If zero (default), no throttling happens.
 - **`context`**: The `ReactiveContext` to use. By default the `mainContext` is used.
 - **`scheduler`**: Set a custom scheduler to determine how re-running the autorun function should be scheduled. It takes a function that should be invoked at some point in the future.
-- **`onError`**: By default, any exception thrown inside a reaction will be logged but not further thrown. This option allows overriding that behavior.
+- **`onError`**: Handles exceptions thrown inside the reaction. Without it, exceptions are not rethrown: they are reported to the spy and to handlers registered with `ReactiveContext.onReactionError()`. Set `disableErrorBoundaries` in `ReactiveConfig` to rethrow them instead.
 
 ```dart
 import 'package:mobx/mobx.dart';
@@ -78,7 +78,7 @@ observables inside `fn()` are tracked.
 - **`equals`**: Custom equality function to override the default comparison for the value returned by `fn`.
 - **`context`**: The `ReactiveContext` to use. By default the `mainContext` is used.
 - **`scheduler`**: Set a custom scheduler to determine how re-running the reaction should be scheduled. It takes a function that should be invoked at some point in the future.
-- **`onError`**: By default, any exception thrown inside a reaction will be logged but not further thrown. This option allows overriding that behavior.
+- **`onError`**: Handles exceptions thrown inside the reaction. Without it, exceptions are not rethrown: they are reported to the spy and to handlers registered with `ReactiveContext.onReactionError()`. Set `disableErrorBoundaries` in `ReactiveConfig` to rethrow them instead.
 
 ```dart
 import 'package:mobx/mobx.dart';
@@ -99,12 +99,18 @@ dispose();
 
 ## when
 
-#### `ReactionDisposer when(bool Function(Reaction) predicate, void Function() effect)`
+#### `ReactionDisposer when(bool Function(Reaction) predicate, void Function() effect, {String? name, ReactiveContext? context, int? timeout, void Function(Object, Reaction)? onError})`
 
 Monitors the observables used inside `predicate()` and runs the `effect()`
 _when_ it returns `true`. After the `effect()` is run, `when` automatically
 disposes itself. So you can think of _when_ as a _one-time_ `reaction`. You can
 also dispose `when()` pre-maturely.
+
+**Optional parameters:**
+- **`name`**: Debug name for this reaction
+- **`context`**: The `ReactiveContext` to use. By default the `mainContext` is used.
+- **`timeout`**: Number of milliseconds to wait for the predicate to become true. If the timeout elapses first, `when` disposes itself and raises a `MobXException`, which is passed to `onError` if set, or otherwise thrown asynchronously (not catchable around the `when(...)` call).
+- **`onError`**: Handles exceptions thrown inside the reaction. Without it, exceptions are not rethrown: they are reported to the spy and to handlers registered with `ReactiveContext.onReactionError()`. Set `disableErrorBoundaries` in `ReactiveConfig` to rethrow them instead.
 
 ```dart
 import 'package:mobx/mobx.dart';
@@ -122,17 +128,22 @@ greeting.value = 'Hello MobX'; // Causes a change, runs effect and disposes
 
 ## asyncWhen
 
-#### `Future<void> asyncWhen(bool Function(Reaction) predicate)`
+#### `Future<void> asyncWhen(bool Function(Reaction) predicate, {String? name, int? timeout, ReactiveContext? context})`
 
 Similar to `when` but returns a `Future`, which is fulfilled when the
 `predicate()` returns _true_. This is a convenient way of waiting for the
 `predicate()` to turn `true`.
 
+**Optional parameters:**
+- **`name`**: Debug name for this reaction
+- **`timeout`**: Number of milliseconds to wait for the predicate to become true. If the timeout elapses first, the returned `Future` completes with a `MobXException`.
+- **`context`**: The `ReactiveContext` to use. By default the `mainContext` is used.
+
 ```dart
 final completed = Observable(false);
 
 void waitForCompletion() async {
-  await asyncWhen(() => completed.value == true);
+  await asyncWhen((_) => completed.value);
 
   print('Completed');
 }

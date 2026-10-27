@@ -12,31 +12,25 @@ mixin _$TestStore on _TestStore, Store {
   Computed<String>? _$fieldsComputed;
 
   @override
-  String get fields =>
-      (_$fieldsComputed ??= Computed<String>(
-            () => super.fields,
-            name: '_TestStore.fields',
-          ))
-          .value;
+  String get fields => (_$fieldsComputed ??= Computed<String>(
+    () => super.fields,
+    name: '_TestStore.fields',
+  )).value;
   Computed<String>? _$fieldsKeepAliveComputed;
 
   @override
-  String get fieldsKeepAlive =>
-      (_$fieldsKeepAliveComputed ??= Computed<String>(
-            () => super.fieldsKeepAlive,
-            name: '_TestStore.fieldsKeepAlive',
-            keepAlive: true,
-          ))
-          .value;
+  String get fieldsKeepAlive => (_$fieldsKeepAliveComputed ??= Computed<String>(
+    () => super.fieldsKeepAlive,
+    name: '_TestStore.fieldsKeepAlive',
+    keepAlive: true,
+  )).value;
   Computed<String>? _$batchedItemsComputed;
 
   @override
-  String get batchedItems =>
-      (_$batchedItemsComputed ??= Computed<String>(
-            () => super.batchedItems,
-            name: '_TestStore.batchedItems',
-          ))
-          .value;
+  String get batchedItems => (_$batchedItemsComputed ??= Computed<String>(
+    () => super.batchedItems,
+    name: '_TestStore.batchedItems',
+  )).value;
 
   late final _$field1Atom = Atom(name: '_TestStore.field1', context: context);
 
@@ -237,7 +231,120 @@ mixin _$TestStore on _TestStore, Store {
         super.lateField = value;
         _lateFieldIsInitialized = true;
       },
+      equals: _lateFieldIsInitialized ? null : observableAlwaysNotEqual,
       useDeepEquality: true,
+    );
+  }
+
+  late final _$lateNullableFieldAtom = Atom(
+    name: '_TestStore.lateNullableField',
+    context: context,
+  );
+
+  @override
+  String? get lateNullableField {
+    _$lateNullableFieldAtom.reportRead();
+    return super.lateNullableField;
+  }
+
+  bool _lateNullableFieldIsInitialized = false;
+
+  @override
+  set lateNullableField(String? value) {
+    _$lateNullableFieldAtom.reportWrite(
+      value,
+      _lateNullableFieldIsInitialized ? super.lateNullableField : null,
+      () {
+        super.lateNullableField = value;
+        _lateNullableFieldIsInitialized = true;
+      },
+      equals: _lateNullableFieldIsInitialized ? null : observableAlwaysNotEqual,
+      useDeepEquality: true,
+    );
+  }
+
+  late final _$lateNullableUninitializedFieldAtom = Atom(
+    name: '_TestStore.lateNullableUninitializedField',
+    context: context,
+  );
+
+  @override
+  String? get lateNullableUninitializedField {
+    _$lateNullableUninitializedFieldAtom.reportRead();
+    return super.lateNullableUninitializedField;
+  }
+
+  bool _lateNullableUninitializedFieldIsInitialized = false;
+
+  @override
+  set lateNullableUninitializedField(String? value) {
+    _$lateNullableUninitializedFieldAtom.reportWrite(
+      value,
+      _lateNullableUninitializedFieldIsInitialized
+          ? super.lateNullableUninitializedField
+          : null,
+      () {
+        super.lateNullableUninitializedField = value;
+        _lateNullableUninitializedFieldIsInitialized = true;
+      },
+      equals: _lateNullableUninitializedFieldIsInitialized
+          ? null
+          : observableAlwaysNotEqual,
+      useDeepEquality: true,
+    );
+  }
+
+  late final _$deepLateValuesAtom = Atom(
+    name: '_TestStore.deepLateValues',
+    context: context,
+  );
+
+  @override
+  List<int>? get deepLateValues {
+    _$deepLateValuesAtom.reportRead();
+    return super.deepLateValues;
+  }
+
+  bool _deepLateValuesIsInitialized = false;
+
+  @override
+  set deepLateValues(List<int>? value) {
+    _$deepLateValuesAtom.reportWrite(
+      value,
+      _deepLateValuesIsInitialized ? super.deepLateValues : null,
+      () {
+        super.deepLateValues = value;
+        _deepLateValuesIsInitialized = true;
+      },
+      equals: _deepLateValuesIsInitialized ? null : observableAlwaysNotEqual,
+      useDeepEquality: true,
+    );
+  }
+
+  late final _$shallowLateValuesAtom = Atom(
+    name: '_TestStore.shallowLateValues',
+    context: context,
+  );
+
+  @override
+  List<int>? get shallowLateValues {
+    _$shallowLateValuesAtom.reportRead();
+    return super.shallowLateValues;
+  }
+
+  bool _shallowLateValuesIsInitialized = false;
+
+  @override
+  set shallowLateValues(List<int>? value) {
+    _$shallowLateValuesAtom.reportWrite(
+      value,
+      _shallowLateValuesIsInitialized ? super.shallowLateValues : null,
+      () {
+        super.shallowLateValues = value;
+        _shallowLateValuesIsInitialized = true;
+      },
+      equals: _shallowLateValuesIsInitialized ? null : observableAlwaysNotEqual,
+      useDeepEquality: false,
     );
   }
 
@@ -338,6 +445,10 @@ batchItem3: ${batchItem3},
 batchItem4: ${batchItem4},
 errorField: ${errorField},
 lateField: ${lateField},
+lateNullableField: ${lateNullableField},
+lateNullableUninitializedField: ${lateNullableUninitializedField},
+deepLateValues: ${deepLateValues},
+shallowLateValues: ${shallowLateValues},
 fields: ${fields},
 fieldsKeepAlive: ${fieldsKeepAlive},
 batchedItems: ${batchedItems}

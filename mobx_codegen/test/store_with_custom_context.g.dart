@@ -24,10 +24,16 @@ mixin _$CustomContextStore on _CustomContextStore, Store {
 
   @override
   set name(String value) {
-    _$nameAtom.reportWrite(value, _nameIsInitialized ? super.name : null, () {
-      super.name = value;
-      _nameIsInitialized = true;
-    }, useDeepEquality: true);
+    _$nameAtom.reportWrite(
+      value,
+      _nameIsInitialized ? super.name : null,
+      () {
+        super.name = value;
+        _nameIsInitialized = true;
+      },
+      equals: _nameIsInitialized ? null : observableAlwaysNotEqual,
+      useDeepEquality: true,
+    );
   }
 
   @override

@@ -76,9 +76,9 @@ abstract class _TestStore with Store {
   @observable
   Stream<String> stream() {
     var i = 1;
-    return Stream.periodic(const Duration(milliseconds: 10))
-        .take(3)
-        .map((_) => 'item${i++}');
+    return Stream.periodic(
+      const Duration(milliseconds: 10),
+    ).take(3).map((_) => 'item${i++}');
   }
 
   @observable
@@ -130,14 +130,27 @@ abstract class _TestStore with Store {
 
   @observable
   late String lateField;
+
+  @observable
+  late String? lateNullableField = field1;
+
+  @observable
+  late String? lateNullableUninitializedField;
+
+  @MakeObservable(useDeepEquality: true)
+  late List<int>? deepLateValues;
+
+  @MakeObservable(useDeepEquality: false)
+  late List<int>? shallowLateValues;
 }
 
 void main() {
   late ReactiveWritePolicy prevWritePolicy;
   setUp(() {
     prevWritePolicy = mainContext.config.writePolicy;
-    mainContext.config =
-        ReactiveConfig(writePolicy: ReactiveWritePolicy.always);
+    mainContext.config = ReactiveConfig(
+      writePolicy: ReactiveWritePolicy.always,
+    );
   });
 
   tearDown(() {
@@ -205,8 +218,9 @@ void main() {
 
     final future = store.loadStuff2();
 
-    await asyncWhen((_) => future.status == FutureStatus.fulfilled)
-        .timeout(const Duration(seconds: 1));
+    await asyncWhen(
+      (_) => future.status == FutureStatus.fulfilled,
+    ).timeout(const Duration(seconds: 1));
 
     expect(stuff, equals(['stuff', 'stuff0', 'stuff1', 'stuff2', 'stuff3']));
   });
@@ -276,8 +290,10 @@ void main() {
 
     await future;
 
-    expect(values,
-        equals(['item1   ', 'item1 item2 item3 ', 'item1 item2 item3 item4']));
+    expect(
+      values,
+      equals(['item1   ', 'item1 item2 item3 ', 'item1 item2 item3 item4']),
+    );
   });
 
   test('async action throwing works', () async {
@@ -308,5 +324,61 @@ void main() {
     store.lateField = 'field';
 
     expect(fields, equals(['field']));
+  });
+
+  test('setting an initialized late nullable field to null works', () {
+    final store = TestStore('field1', field2: 'field2');
+
+    final fields = <String?>[];
+    autorun((_) {
+      fields.add(store.lateNullableField);
+    });
+    store.lateNullableField = null;
+
+    expect(store.lateNullableField, isNull);
+    expect(fields, equals(['field1', null]));
+  });
+
+  test('setting an uninitialized late nullable field to null works', () {
+    final store = TestStore('field1', field2: 'field2')
+      ..lateNullableUninitializedField = null;
+
+    expect(store.lateNullableUninitializedField, isNull);
+  });
+
+  test(
+    'late deep equality preserves initial null and compares later writes',
+    () {
+      final store = TestStore('field1')..deepLateValues = null;
+      final values = <List<int>?>[];
+      final dispose = autorun((_) => values.add(store.deepLateValues));
+      addTearDown(dispose.call);
+
+      store.deepLateValues = [1];
+      store.deepLateValues = [1];
+      store.deepLateValues = [2];
+
+      expect(values, [
+        null,
+        [1],
+        [2],
+      ]);
+    },
+  );
+
+  test('late shallow equality preserves initial null and distinct lists', () {
+    final store = TestStore('field1')..shallowLateValues = null;
+    final values = <List<int>?>[];
+    final dispose = autorun((_) => values.add(store.shallowLateValues));
+    addTearDown(dispose.call);
+
+    store.shallowLateValues = [1];
+    store.shallowLateValues = [1];
+
+    expect(values, [
+      null,
+      [1],
+      [1],
+    ]);
   });
 }

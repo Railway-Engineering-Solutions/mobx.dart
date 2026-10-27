@@ -73,9 +73,9 @@ Follow along with the [Getting Started guide on the MobX.dart Website](https://m
 
 ### Go deep
 
-For a deeper coverage of MobX, do check out [MobX Quick Start Guide](https://www.packtpub.com/en-us/product/mobx-quick-start-guide-9781789348972). Although the book uses the JavaScript version of MobX, the concepts are **100% applicable** to Dart and Flutter.
+For a deeper coverage of MobX, do check out [MobX Quick Start Guide](https://www.packtpub.com/en-us/product/mobx-quick-start-guide-9781789344837). Although the book uses the JavaScript version of MobX, the concepts are **100% applicable** to Dart and Flutter.
 
-[![](https://github.com/mobxjs/mobx.dart/raw/master/docs/src/images/book.png)](https://www.packtpub.com/en-us/product/mobx-quick-start-guide-9781789348972)
+[![MobX Quick Start Guide book cover](https://github.com/mobxjs/mobx.dart/raw/master/docs/src/images/book.png)](https://www.packtpub.com/en-us/product/mobx-quick-start-guide-9781789344837)
 
 ## Core Concepts
 
@@ -247,6 +247,8 @@ the observers of the reactive-system and get notified whenever an observable the
 track is changed. Reactions come in few flavors as listed below. All of them
 return a `ReactionDisposer`, a function that can be called to dispose the reaction.
 
+The signatures below show only the required parameters. See the [Reactions API](https://mobx.netlify.app/api/reaction) for all options, such as `name`, `delay`, `timeout` and `onError`.
+
 One _striking feature_ of reactions is that they _automatically track_ all the observables without any explicit wiring. The act of _reading an observable_ within a reaction is enough to track it!
 
 > The code you write with MobX appears to be literally ceremony-free!
@@ -324,7 +326,7 @@ Similar to `when` but returns a `Future`, which is fulfilled when the `predicate
 final completed = Observable(false);
 
 void waitForCompletion() async {
-  await asyncWhen(() => _completed.value == true);
+  await asyncWhen((_) => completed.value);
 
   print('Completed');
 }
