@@ -1,3 +1,8 @@
+## 2.8.2
+
+- Allow `build` 5 (`build: ">=4.0.4 <6.0.0"`); analyzer 14.7 and source_gen 4.3.1 resolve within the existing ranges.
+- Test against build_runner 2.17.1 / build_test 3.5.23 (build 5) on Dart 3.14.
+
 ## 2.8.1
 
 - Allow analyzer 14 again and restore wider dependency ranges (#1086)
